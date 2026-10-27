@@ -1,22 +1,41 @@
-# balance-algorithm
+# GameChange Radar
 
-A Clojure library designed to ... well, that part is up to you.
+A simple Clojure application for estimating the risk of code changes in video games.
+
+## Description
+
+GameChange Radar is a project that aims to help game developers identify potentially risky code changes and suggest which parts of the game should be tested.
+
+The current prototype uses three factors:
+- Number of dependencies
+- Criticality of the changed function
+- Size of the code change
+
+Based on these factors, the application calculates a risk score and classifies it as Low, Medium, or High.
+
+It also suggests a test based on the changed function.
+
+## Technologies
+
+- Clojure
+- Leiningen
 
 ## Usage
 
-FIXME
+Start the Clojure REPL and run:
+
+```clojure
+(require 'balance-algorithm.core :reload)
+(balance-algorithm.core/-main)
+```
+
+## Future Improvements
+
+- Analyze actual code changes using Git
+- Automatically identify dependencies between functions
+- Use machine learning to predict regression risk
+- Generate more detailed test recommendations
 
 ## License
 
-Copyright © 2026 FIXME
-
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-https://www.eclipse.org/legal/epl-2.0.
-
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+This project is licensed under the Eclipse Public License 2.0.
