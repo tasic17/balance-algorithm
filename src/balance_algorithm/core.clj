@@ -1,45 +1,40 @@
 (ns balance-algorithm.core)
 
-;; Racunanje rizika promene
 (defn calculate-risk [dependencies criticality change-size]
   (+ (* dependencies 0.4)
      (* criticality 0.4)
      (* change-size 0.2)))
 
-;; Odredjivanje nivoa rizika
 (defn risk-level [risk]
   (cond
-    (< risk 30) "Nizak"
-    (< risk 60) "Srednji"
-    :else "Visok"))
+    (< risk 30) "Low"
+    (< risk 60) "Medium"
+    :else "High"))
 
-;; Predlaganje testova za promenjenu funkciju
 (defn suggest-tests [function-name]
   (cond
     (= function-name "move_enemy")
-    ["Proveriti brzinu neprijatelja"
-     "Proveriti sudare sa zidovima"
-     "Proveriti kretanje oko prepreka"]
+    ["Check enemy speed"
+     "Check collisions with walls"
+     "Check movement around obstacles"]
 
     (= function-name "attack_player")
-    ["Proveriti napad neprijatelja"
-     "Proveriti smanjenje zdravlja igraca"]
+    ["Check enemy attacks"
+     "Check player health reduction"]
 
     (= function-name "spawn_wave")
-    ["Proveriti pojavljivanje neprijatelja"
-     "Proveriti zavrsetak talasa"]
+    ["Check enemy spawning"
+     "Check wave completion"]
 
     :else
-    ["Rucno proveriti promenjenu funkciju"]))
+    ["Manually test the changed function"]))
 
-;; Dodatna preporuka na osnovu rizika
 (defn risk-recommendation [risk]
   (cond
-    (< risk 30) "Dovoljno je osnovno testiranje."
-    (< risk 60) "Preporucuje se dodatno testiranje."
-    :else "Potrebno je detaljno testiranje!"))
+    (< risk 30) "Basic testing is sufficient."
+    (< risk 60) "Additional testing is recommended."
+    :else "Thorough testing is required!"))
 
-;; Glavni program
 (defn -main []
   (let [function-name "move_enemy"
         dependencies 80
@@ -50,13 +45,13 @@
         tests (suggest-tests function-name)]
 
     (println "\n=== GAMECHANGE RADAR ===")
-    (println "Promenjena funkcija:" function-name)
-    (println "Ocena rizika:" risk)
-    (println "Nivo rizika:" (risk-level risk))
+    (println "Changed function:" function-name)
+    (println "Risk score:" risk)
+    (println "Risk level:" (risk-level risk))
 
-    (println "\nPredlozeni testovi:")
+    (println "\nSuggested tests:")
     (doseq [test tests]
       (println "-" test))
 
-    (println "\nPreporuka:")
+    (println "\nRecommendation:")
     (println (risk-recommendation risk))))
