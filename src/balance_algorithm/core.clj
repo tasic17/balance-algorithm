@@ -13,19 +13,31 @@
     (< risk 60) "Srednji"
     :else "Visok"))
 
-;; Predlog testova na osnovu promenjene funkcije
-(defn suggest-test [function-name]
+;; Predlaganje testova za promenjenu funkciju
+(defn suggest-tests [function-name]
   (cond
     (= function-name "move_enemy")
-    "Testirati kretanje neprijatelja"
+    ["Proveriti brzinu neprijatelja"
+     "Proveriti sudare sa zidovima"
+     "Proveriti kretanje oko prepreka"]
 
     (= function-name "attack_player")
-    "Testirati napad i zdravlje igraca"
+    ["Proveriti napad neprijatelja"
+     "Proveriti smanjenje zdravlja igraca"]
 
     (= function-name "spawn_wave")
-    "Testirati pojavljivanje neprijatelja"
+    ["Proveriti pojavljivanje neprijatelja"
+     "Proveriti zavrsetak talasa"]
 
-    :else "Rucno proveriti funkciju"))
+    :else
+    ["Rucno proveriti promenjenu funkciju"]))
+
+;; Dodatna preporuka na osnovu rizika
+(defn risk-recommendation [risk]
+  (cond
+    (< risk 30) "Dovoljno je osnovno testiranje."
+    (< risk 60) "Preporucuje se dodatno testiranje."
+    :else "Potrebno je detaljno testiranje!"))
 
 ;; Glavni program
 (defn -main []
@@ -34,10 +46,17 @@
         criticality 70
         change-size 50
 
-        risk (calculate-risk dependencies criticality change-size)]
+        risk (calculate-risk dependencies criticality change-size)
+        tests (suggest-tests function-name)]
 
-    (println "=== GAMECHANGE RADAR ===")
+    (println "\n=== GAMECHANGE RADAR ===")
     (println "Promenjena funkcija:" function-name)
     (println "Ocena rizika:" risk)
     (println "Nivo rizika:" (risk-level risk))
-    (println "Predlozeni test:" (suggest-test function-name))))
+
+    (println "\nPredlozeni testovi:")
+    (doseq [test tests]
+      (println "-" test))
+
+    (println "\nPreporuka:")
+    (println (risk-recommendation risk))))
